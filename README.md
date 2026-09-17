@@ -65,6 +65,7 @@ fallar genera otra (sin penalización).
 | Elemento | Estado por defecto | Dónde se cambia |
 |----------|-------------------|-----------------|
 | Retos de puerta (cálculos) | ✅ ACTIVADOS | Casilla “Retos de puerta activados” (panel lateral) |
+| Luz central de la sala | ❌ APAGADA | Casilla “Luz central” (panel lateral, bajo el estado de sala) |
 | Retos de sala (adivinanza, secuencia, memoria, lógica, reflejos) | ❌ DESACTIVADOS | Código presente pero sin llamar (residual) |
 | Brújula 🧭 del HUD | ❌ OCULTA | Se activa recogiendo el compás |
 | Marca del compás en minimapa | ❌ OCULTA | Casilla “Marcar compás en minimapa” (panel lateral) |

@@ -35,6 +35,7 @@ let solvedRooms=new Set(), visited=new Set(), pathOrder=[];
 let roomUnlocked=false, currentRoomPuzzle=null, doorPuzzle=null, pendingDir=null;
 let playing=false;
 let doorChallengesEnabled=true;
+let centerLightEnabled=false; // luz central desactivada por defecto (se activa en el panel)
 let compassPos=null, compassCollected=false, showCompassOnMap=false;
 
 // --- utils seed ---
@@ -310,7 +311,7 @@ function initThree(){
   renderer=new THREE.WebGLRenderer({canvas:cv,antialias:true});
   renderer.setSize(innerWidth,innerHeight); renderer.setPixelRatio(Math.min(devicePixelRatio,2));
   scene.add(new THREE.AmbientLight(0x88ffbb,.55));
-  centerLight=new THREE.PointLight(0x33ff99,1.1,20); centerLight.position.set(0,1.5,0); scene.add(centerLight);
+  centerLight=new THREE.PointLight(0x33ff99,1.1,20); centerLight.position.set(0,1.5,0); centerLight.visible=centerLightEnabled; scene.add(centerLight);
   const dl=new THREE.DirectionalLight(0xffffff,.25); dl.position.set(2,4,3); scene.add(dl);
   // caja interior con 6 materiales distintos (uno por pared, opacos con textura)
   const g=new THREE.BoxGeometry(9,9,9);
@@ -410,7 +411,7 @@ function initThree(){
   (function loop(t){
     requestAnimationFrame(loop);
     camera.rotation.order="YXZ"; camera.rotation.y=yaw; camera.rotation.x=pitch;
-    centerLight.intensity=1+Math.sin(Date.now()/500)*.12;
+    if(centerLight.visible) centerLight.intensity=1+Math.sin(Date.now()/500)*.12;
     if(compassGroup&&compassGroup.visible){
       compassGroup.position.y=-2.6+Math.sin(Date.now()/600)*.18;
       compassGroup.rotation.y=Math.sin(Date.now()/900)*.12;
@@ -1111,6 +1112,12 @@ document.getElementById("chk-showcompass").addEventListener("change",e=>{
   showCompassOnMap=e.target.checked;
   log(showCompassOnMap?"Minimapa: compás VISIBLE":"Minimapa: compás OCULTO");
   drawMinimap3D();
+});
+document.getElementById("chk-light").addEventListener("change",e=>{
+  centerLightEnabled=e.target.checked;
+  if(centerLight) centerLight.visible=centerLightEnabled;
+  log(centerLightEnabled?"Luz central ENCENDIDA":"Luz central APAGADA");
+  toast(centerLightEnabled?"Luz central encendida":"Luz central apagada");
 });
 document.getElementById("chk-doors").addEventListener("change",e=>{
   doorChallengesEnabled=e.target.checked;
