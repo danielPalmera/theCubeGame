@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EL CUBO — Demo 5×5×5</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<canvas id="c3d"></canvas>
+<div id="fade"></div>
+
+<div id="hud-top">
+  <span class="pill">EL CUBO <b>5×5×5</b> = 125 salas</span>
+  <span class="pill">POS <b id="h-pos">–</b></span>
+  <span class="pill">SECTOR <b id="h-sector">–</b></span>
+  <span class="pill">DIST.SALIDA <b id="h-dist">–</b></span>
+  <span class="pill">❤ <b id="h-lives">3</b></span>
+  <span class="pill">PASOS <b id="h-moves">0</b></span>
+  <span class="pill">⏱ <b id="h-time">0:00</b></span>
+  <span class="pill" id="pill-compass" style="display:none">🧭 <b id="h-compass">–</b></span>
+</div>
+
+<div id="panel">
+  <h2>SALA ACTUAL</h2>
+  <div id="coords">[ -- , -- , -- ]</div>
+  <p id="room-desc">...</p>
+  <p id="room-status" style="color:#ffd76a"></p>
+  <h2>PUERTAS (RETO MATEMÁTICO)</h2>
+  <label style="display:flex;gap:8px;align-items:center;font-size:12px;background:#02120a;border:1px solid #1de07a66;border-radius:8px;padding:6px 8px;margin-bottom:8px;cursor:pointer">
+    <input type="checkbox" id="chk-doors" checked style="width:16px;height:16px;accent-color:#1de07a"> Retos de puerta activados
+  </label>
+  <div class="door-grid">
+    <button class="door-btn" data-dir="E">→ ESTE (+X)</button>
+    <button class="door-btn" data-dir="O">← OESTE (−X)</button>
+    <button class="door-btn" data-dir="N">↑ NORTE (+Z)</button>
+    <button class="door-btn" data-dir="S">↓ SUR (−Z)</button>
+    <button class="door-btn" data-dir="UP">▲ ARRIBA (+Y)</button>
+    <button class="door-btn" data-dir="DOWN">▼ ABAJO (−Y)</button>
+  </div>
+  <p id="style-tag" style="border:1px dashed #1de07a;border-radius:8px;padding:6px;text-align:center">ESTILO: —</p>
+  <button class="door-btn" id="btn-compass" style="display:none;width:100%;margin-top:6px;border-color:#ffd76a;color:#ffd76a">🧭 RECOGER COMPÁS</button>
+  <h2 style="margin-top:10px">MINIMAPA 3D · RECORRIDO</h2>
+  <canvas id="minimap" width="270" height="220"></canvas>
+  <div style="display:flex;gap:6px;margin-top:6px">
+    <button class="door-btn" id="btn-rot" style="flex:1">⏸ ROTACIÓN</button>
+    <button class="door-btn" id="btn-top" style="flex:1">⬒ VISTA TOP</button>
+  </div>
+  <label style="display:flex;gap:8px;align-items:center;font-size:12px;background:#02120a;border:1px solid #1de07a66;border-radius:8px;padding:6px 8px;margin-top:6px;cursor:pointer">
+    <input type="checkbox" id="chk-showcompass" style="width:16px;height:16px;accent-color:#ffd76a"> Marcar compás en minimapa
+  </label>
+  <div class="legend">Cubos lado a lado: 🟩 tú · 🟦 núcleo · 🟨 salida · 🟥 trampa · ⬜ compás (solo si activas la opción)<br>
+  Arrastra el minimapa para rotar, rueda para zoom.</div>
+  <div id="log"></div>
+</div>
+
+  <div id="look-hint">🖱 arrastra para mirar • click en puerta para cruzar • en pared blanca para escapar • flechas para mirar • E/O/N/S/U/J para moverse</div>
+
+<div id="modal-wrap"><div id="modal"></div></div>
+<div id="toast"></div>
+
+<div id="start">
+  <div id="start-card">
+    <h1>EL CUBO</h1>
+    <h4>PROTOTIPO 5 × 5 × 5</h4>
+    <p>• Aparición <b>aleatoria en cualquier cubo</b> (a mínimo 5 cubos de la salida).<br>
+    • Cada sala tiene estética propia <b>steampunk / cyberpunk</b> con paredes distintas.<br>
+    • <b>Sin retos de sala.</b> Cada puerta pide un <b>reto matemático</b> para cruzar. La dificultad sube lejos del centro.<br>
+    • <b>Objetivo:</b> encontrar el cubo de SALIDA en un <b>borde aleatorio</b>: entrar no basta, sus paredes al exterior son <b>blancas</b> y hay que pulsar sobre la pared blanca para escapar.<br>
+    • Hay un <b>🧭 compás escondido</b> en una sala: recógelo para activar la brújula. La brújula empieza desactivada.</p>
+    <p style="color:#8fb89e">Demo en HTML + CSS + JS con Three.js. El laberinto es procedural (determinista): 125 salas generadas por semilla, sin cargarlas todas en memoria.</p>
+    <button id="btn-start">⛶ ENTRAR AL CUBO</button>
+  </div>
+</div>
+
+<script src="game.js"></script>
+</body>
+</html>
